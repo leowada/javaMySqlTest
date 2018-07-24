@@ -1,8 +1,24 @@
 package com.ef;
 
+import com.accesslog.AccessLog;
+import com.accesslog.AccessLogManager;
+import com.arguments.Arguments;
+import com.arguments.ArgumentsParser;
 import org.apache.commons.cli.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @SpringBootApplication
 public class JavaMySqlTestApplication {
@@ -11,41 +27,25 @@ public class JavaMySqlTestApplication {
 
 		Options options = new Options();
 
-		Option accesslogOption = new Option("a", "accesslog", true, "Path to the access log file.");
-		accesslogOption.setRequired(false);
-		options.addOption(accesslogOption);
+		addOption(options,"a", "accesslog", true, "Path to the access log file.", false);
+		addOption(options,"s", "startDate", true, "Start date to search IPs.", true);
+		addOption(options,"d", "duration", true, "Duration of the period to search IPs. Can be \"hourly\" or \"daily\".", true);
+		addOption(options,"t", "threshold", true, "Threshold to define IP that deserves to be blocked.", true);
 
-		Option startDateOption = new Option("s", "startDate", true, "Start date to search IPs.");
-		startDateOption.setRequired(true);
-		options.addOption(startDateOption);
+		Arguments arguments = ArgumentsParser.parse(options, args);
 
-		Option durationOption = new Option("d", "duration", true, "Duration of the period to search IPs. Can be \"hourly\" or \"daily\".");
-		durationOption.setRequired(true);
-		options.addOption(durationOption);
-
-		Option thresholdOption = new Option("t", "threshold", true, "Threshold to define IP that deserves to be blocked.");
-		thresholdOption.setRequired(true);
-		options.addOption(thresholdOption);
-
-		CommandLineParser parser = new DefaultParser();
-		HelpFormatter formatter = new HelpFormatter();
-		CommandLine cmd = null;
-
-		try {
-			cmd = parser.parse(options, args);
-		} catch (ParseException e) {
-			System.out.println(e.getMessage());
-			formatter.printHelp("utility-name", options);
-
-			System.exit(1);
+		if (arguments.getAccessLogPath() != null) {
+			AccessLogManager.loadAccessLog(arguments.getAccessLogPath());
 		}
 
-		String accesslogValue = cmd.getOptionValue("accesslog");
-		String startDateValue = cmd.getOptionValue("startDate");
+		//TODO: buscar no banco
 
-		System.out.println(accesslogValue);
-		System.out.println(startDateValue);
-
-		SpringApplication.run(JavaMySqlTestApplication.class, args);
 	}
+
+	private static void addOption(Options options, String opt, String longOpt, boolean hasArg, String description, boolean required) {
+		Option accesslogOption = new Option(opt, longOpt, hasArg, description);
+		accesslogOption.setRequired(required);
+		options.addOption(accesslogOption);
+	}
+
 }
