@@ -1,29 +1,26 @@
 package com.ef;
 
-import com.accesslog.AccessLog;
-import com.accesslog.AccessLogManager;
-import com.arguments.Arguments;
-import com.arguments.ArgumentsParser;
+import com.ef.accesslog.AccessLogManager;
+import com.ef.arguments.ArgumentsDTO;
+import com.ef.arguments.ArgumentsParser;
 import org.apache.commons.cli.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class JavaMySqlTestApplication {
 
+	@Autowired
+	ApplicationContext applicationContext;
+
 	public static void main(String[] args) {
+
+		ApplicationContext applicationContext = SpringApplication.run(JavaMySqlTestApplication.class, args);
+
+		AccessLogManager accessLogManager = (AccessLogManager) applicationContext.getBean("accessLogManager");
+		ArgumentsParser argumentsParser = (ArgumentsParser) applicationContext.getBean("argumentsParser");
 
 		Options options = new Options();
 
@@ -32,13 +29,11 @@ public class JavaMySqlTestApplication {
 		addOption(options,"d", "duration", true, "Duration of the period to search IPs. Can be \"hourly\" or \"daily\".", true);
 		addOption(options,"t", "threshold", true, "Threshold to define IP that deserves to be blocked.", true);
 
-		Arguments arguments = ArgumentsParser.parse(options, args);
+		ArgumentsDTO argumentsDTO = argumentsParser.parse(options, args);
 
-		if (arguments.getAccessLogPath() != null) {
-			AccessLogManager.loadAccessLog(arguments.getAccessLogPath());
+		if (argumentsDTO.getAccessLogPath() != null) {
+			accessLogManager.loadAccessLog(argumentsDTO.getAccessLogPath());
 		}
-
-		//TODO: buscar no banco
 
 	}
 

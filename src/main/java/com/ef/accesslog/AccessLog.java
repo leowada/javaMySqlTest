@@ -1,5 +1,9 @@
-package com.accesslog;
+package com.ef.accesslog;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
 /**
@@ -9,8 +13,10 @@ import java.time.LocalDate;
  *
  * Date Format: "yyyy-MM-dd HH:mm:ss.SSS"
  */
+@Entity
 public class AccessLog {
 
+    private Long id;
     private LocalDate localDate;
     private String ip;
     private String request;
@@ -25,6 +31,17 @@ public class AccessLog {
         this.userAgent = userAgent;
     }
 
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Column
     public LocalDate getLocalDate() {
         return localDate;
     }
@@ -33,6 +50,7 @@ public class AccessLog {
         this.localDate = localDate;
     }
 
+    @Column
     public String getIp() {
         return ip;
     }
@@ -41,6 +59,7 @@ public class AccessLog {
         this.ip = ip;
     }
 
+    @Column
     public String getRequest() {
         return request;
     }
@@ -49,6 +68,7 @@ public class AccessLog {
         this.request = request;
     }
 
+    @Column
     public Integer getStatus() {
         return status;
     }
@@ -57,6 +77,7 @@ public class AccessLog {
         this.status = status;
     }
 
+    @Column
     public String getUserAgent() {
         return userAgent;
     }

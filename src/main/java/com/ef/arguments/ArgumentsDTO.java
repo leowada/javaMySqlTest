@@ -1,12 +1,12 @@
-package com.arguments;
+package com.ef.arguments;
 
-public class Arguments {
+public class ArgumentsDTO {
     private String accessLogPath;
     private String startDate;
     private String duration;
     private Integer threshold;
 
-    public Arguments(String accessLogPath, String startDate, String duration, Integer threshold) {
+    public ArgumentsDTO(String accessLogPath, String startDate, String duration, Integer threshold) {
         this.accessLogPath = accessLogPath;
         this.startDate = startDate;
         this.duration = duration;

@@ -1,10 +1,12 @@
-package com.arguments;
+package com.ef.arguments;
 
 import org.apache.commons.cli.*;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ArgumentsParser {
 
-    public static Arguments parse(Options options, String[] args) {
+    public ArgumentsDTO parse(Options options, String[] args) {
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
         CommandLine cmd = null;
@@ -23,6 +25,6 @@ public class ArgumentsParser {
         String durationValue = cmd.getOptionValue("duration");
         Integer thresholdValue = Integer.valueOf(cmd.getOptionValue("threshold"));
 
-        return new Arguments(accessLogPath, startDateValue, durationValue, thresholdValue);
+        return new ArgumentsDTO(accessLogPath, startDateValue, durationValue, thresholdValue);
     }
 }
