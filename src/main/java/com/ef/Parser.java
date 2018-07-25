@@ -10,14 +10,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
-public class JavaMySqlTestApplication {
+public class Parser {
 
 	@Autowired
 	ApplicationContext applicationContext;
 
 	public static void main(String[] args) {
 
-		ApplicationContext applicationContext = SpringApplication.run(JavaMySqlTestApplication.class, args);
+		ApplicationContext applicationContext = SpringApplication.run(Parser.class, args);
 
 		AccessLogManager accessLogManager = (AccessLogManager) applicationContext.getBean("accessLogManager");
 		ArgumentsParser argumentsParser = (ArgumentsParser) applicationContext.getBean("argumentsParser");
@@ -32,7 +32,7 @@ public class JavaMySqlTestApplication {
 		ArgumentsDTO argumentsDTO = argumentsParser.parse(options, args);
 
 		if (argumentsDTO.getAccessLogPath() != null) {
-			accessLogManager.loadAccessLog(argumentsDTO.getAccessLogPath());
+			accessLogManager.loadAccessLog(argumentsDTO);
 		}
 
 	}

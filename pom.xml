@@ -55,7 +55,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.ef.JavaMySqlTestApplication</mainClass>
+							<mainClass>com.ef.Parser</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

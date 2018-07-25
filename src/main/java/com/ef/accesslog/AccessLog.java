@@ -4,26 +4,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Represents a line in the access log file.
- *
- * Date, IP, Request, Status, User Agent (pipe delimited, open the example file in text editor)
- *
- * Date Format: "yyyy-MM-dd HH:mm:ss.SSS"
  */
 @Entity
 public class AccessLog {
 
     private Long id;
-    private LocalDate localDate;
+    private LocalDateTime localDate;
     private String ip;
     private String request;
     private Integer status;
     private String userAgent;
 
-    public AccessLog(LocalDate localDate, String ip, String request, Integer status, String userAgent) {
+    public AccessLog(LocalDateTime localDate, String ip, String request, Integer status, String userAgent) {
         this.localDate = localDate;
         this.ip = ip;
         this.request = request;
@@ -42,11 +38,11 @@ public class AccessLog {
     }
 
     @Column
-    public LocalDate getLocalDate() {
+    public LocalDateTime getLocalDate() {
         return localDate;
     }
 
-    public void setLocalDate(LocalDate localDate) {
+    public void setLocalDate(LocalDateTime localDate) {
         this.localDate = localDate;
     }
 
