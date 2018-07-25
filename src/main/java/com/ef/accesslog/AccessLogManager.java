@@ -61,12 +61,11 @@ public class AccessLogManager {
             String userAgent = accessLogValues[4];
             LocalDateTime localDate = this.convertStringToLocalDate(date, DATE_FORMAT);
 
-            AccessLog accessLog = new AccessLog(localDate, ip, request, status, userAgent);
-            this.entityManager.persist(accessLog);
-            boolean isAccessInDuration = validateAccessInDuration(argumentsDTO.getDuration(), startDate, argumentsDTO.getThreshold(),
-                    accessLog, endDate);
+            AccessLogLine accessLogLine = new AccessLogLine(localDate, ip, request, status, userAgent);
+            this.entityManager.persist(accessLogLine);
+            boolean isAccessInDuration = validateAccessInDuration(startDate, accessLogLine, endDate);
             if (isAccessInDuration) {
-                accessLogBetweenDuration.add(accessLog);
+                accessLogBetweenDuration.add(accessLogLine);
             }
         }
     }
@@ -89,10 +88,9 @@ public class AccessLogManager {
         return LocalDateTime.parse(localDateAsString, dateTimeFormatter);
     }
 
-    public boolean validateAccessInDuration(String duration, LocalDateTime startDate, Integer threshold, AccessLog accessLog,
-                                            LocalDateTime endDate) {
-        if ((accessLog.getDate().isAfter(startDate) || accessLog.getDate().isEqual(startDate)) &&
-                accessLog.getDate().isBefore(endDate)) {
+    public boolean validateAccessInDuration(LocalDateTime startDate, AccessLogLine accessLogLine, LocalDateTime endDate) {
+        LocalDateTime logDate = accessLogLine.getDate();
+        if ((logDate.isAfter(startDate) || logDate.isEqual(startDate)) && logDate.isBefore(endDate)) {
             return true;
         }
         return false;
@@ -110,19 +108,19 @@ public class AccessLogManager {
 
 
     private class AccessLogBetweenDuration {
-        final Map<String, List<AccessLog>> mapIpAccessLogs = new HashMap<>();
+        final Map<String, List<AccessLogLine>> mapIpAccessLogs = new HashMap<>();
 
-        public Map<String, List<AccessLog>> getMapIpAccessLogs() {
+        public Map<String, List<AccessLogLine>> getMapIpAccessLogs() {
             return mapIpAccessLogs;
         }
 
-        public void add(AccessLog accessLog) {
-            if (mapIpAccessLogs.containsKey(accessLog.getIp())) {
-                mapIpAccessLogs.get(accessLog.getIp()).add(accessLog);
+        public void add(AccessLogLine accessLogLine) {
+            if (mapIpAccessLogs.containsKey(accessLogLine.getIp())) {
+                mapIpAccessLogs.get(accessLogLine.getIp()).add(accessLogLine);
             } else {
-                List<AccessLog> accessLogList = new ArrayList<>();
-                accessLogList.add(accessLog);
-                mapIpAccessLogs.put(accessLog.getIp(), accessLogList);
+                List<AccessLogLine> accessLogLineList = new ArrayList<>();
+                accessLogLineList.add(accessLogLine);
+                mapIpAccessLogs.put(accessLogLine.getIp(), accessLogLineList);
             }
         }
     }

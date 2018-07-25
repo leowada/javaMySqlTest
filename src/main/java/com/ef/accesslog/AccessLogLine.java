@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * Represents a line in the access log file.
  */
 @Entity
-public class AccessLog {
+public class AccessLogLine {
 
     private Long id;
     private LocalDateTime date;
@@ -19,7 +19,7 @@ public class AccessLog {
     private Integer status;
     private String userAgent;
 
-    public AccessLog(LocalDateTime date, String ip, String request, Integer status, String userAgent) {
+    public AccessLogLine(LocalDateTime date, String ip, String request, Integer status, String userAgent) {
         this.date = date;
         this.ip = ip;
         this.request = request;
