@@ -3,7 +3,8 @@ package com.ef;
 import com.ef.accesslog.AccessLogManager;
 import com.ef.arguments.ArgumentsDTO;
 import com.ef.arguments.ArgumentsParser;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,9 +12,6 @@ import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class Parser {
-
-	@Autowired
-	ApplicationContext applicationContext;
 
 	public static void main(String[] args) {
 
@@ -34,7 +32,6 @@ public class Parser {
 		if (argumentsDTO.getAccessLogPath() != null) {
 			accessLogManager.loadAccessLog(argumentsDTO);
 		}
-
 	}
 
 	private static void addOption(Options options, String opt, String longOpt, boolean hasArg, String description, boolean required) {

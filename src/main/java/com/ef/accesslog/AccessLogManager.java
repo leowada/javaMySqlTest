@@ -10,7 +10,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -92,8 +91,8 @@ public class AccessLogManager {
 
     public boolean validateAccessInDuration(String duration, LocalDateTime startDate, Integer threshold, AccessLog accessLog,
                                             LocalDateTime endDate) {
-        if ((accessLog.getLocalDate().isAfter(startDate) || accessLog.getLocalDate().isEqual(startDate)) &&
-                accessLog.getLocalDate().isBefore(endDate)) {
+        if ((accessLog.getDate().isAfter(startDate) || accessLog.getDate().isEqual(startDate)) &&
+                accessLog.getDate().isBefore(endDate)) {
             return true;
         }
         return false;

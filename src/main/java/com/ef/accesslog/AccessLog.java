@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
 public class AccessLog {
 
     private Long id;
-    private LocalDateTime localDate;
+    private LocalDateTime date;
     private String ip;
     private String request;
     private Integer status;
     private String userAgent;
 
-    public AccessLog(LocalDateTime localDate, String ip, String request, Integer status, String userAgent) {
-        this.localDate = localDate;
+    public AccessLog(LocalDateTime date, String ip, String request, Integer status, String userAgent) {
+        this.date = date;
         this.ip = ip;
         this.request = request;
         this.status = status;
@@ -38,12 +38,12 @@ public class AccessLog {
     }
 
     @Column
-    public LocalDateTime getLocalDate() {
-        return localDate;
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setLocalDate(LocalDateTime localDate) {
-        this.localDate = localDate;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     @Column
