@@ -58,6 +58,7 @@
 							<mainClass>com.ef.Parser</mainClass>
 						</manifest>
 					</archive>
+					<finalName>parser</finalName>
 				</configuration>
 			</plugin>
 			<plugin>
